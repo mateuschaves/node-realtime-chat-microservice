@@ -2,7 +2,7 @@
   "name": "node-realtime-chat-microservice",
   "version": "0.0.1",
   "description": "Realtime chat microservice",
-  "main": "server.ts",
+  "main": "src/main.ts",
   "repository": "https://github.com/mateuschaves/node-realtime-chat-microservice.git",
   "author": "Mateus Henrique <mateushenriquechaves1@gmail.com>",
   "license": "MIT",
