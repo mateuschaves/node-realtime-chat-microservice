@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  messenger:
+    build: .
+    command: npm install
+    command: npm run dev
+    container_name: "back_end_ticonnecte"
+    deploy:
+      restart_policy:
+        condition: on-failure
+    ports: 
+      - "2000:3000"
+    volumes:
+      - .:/usr/app
+    links:
+      - database_ticonnecte
+ database:
+    image: mongo:latest
+    ports:
+      - "8081:8081"
+    container_name: "messenger_database"
