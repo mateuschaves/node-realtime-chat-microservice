@@ -6,8 +6,8 @@ export default class Conversation {
   _id: string;
 
   @Column()
-  firstPerson: string;
+  service_provider_id: string;
 
   @Column()
-  secondPerson: string;
+  customer_id: string;
 }

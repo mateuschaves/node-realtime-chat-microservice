@@ -28,10 +28,14 @@
     "@nestjs/platform-socket.io": "^7.3.2",
     "@nestjs/typeorm": "^7.1.0",
     "@nestjs/websockets": "^7.3.2",
+    "@types/socket.io": "^2.1.8",
+    "class-transformer": "^0.2.3",
+    "class-validator": "^0.12.2",
     "mongodb": "^3.5.9",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
+    "rxjs-compat": "^6.6.0",
     "typeorm": "^0.2.25"
   },
   "devDependencies": {

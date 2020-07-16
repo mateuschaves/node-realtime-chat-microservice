@@ -3,7 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConversationModule } from './conversation/conversation.module';
+import { MessagesModule } from './messages/messages.module';
 import Conversation from './conversation/conversation.entity';
+import { MessagesGateway } from './messages/messages.gateway';
+import { Message } from './messages/message.entity';
 
 @Module({
   imports: [
@@ -12,11 +15,12 @@ import Conversation from './conversation/conversation.entity';
       url: 'mongodb://messenger_database/node-realtime-chat-microservice',
       synchronize: true,
       useUnifiedTopology: true,
-      entities: [Conversation],
+      entities: [Conversation, Message],
     }),
     ConversationModule,
+    MessagesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, MessagesGateway],
 })
 export class AppModule {}
