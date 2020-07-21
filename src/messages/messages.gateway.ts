@@ -5,6 +5,8 @@ import {
   WebSocketServer,
   OnGatewayConnection,
   OnGatewayDisconnect,
+  ConnectedSocket,
+  MessageBody,
 } from '@nestjs/websockets';
 import { Logger, Inject } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
@@ -14,6 +16,7 @@ import { MessageService } from './message.service';
 import { UserService } from './user.service';
 
 import User from './user.entity';
+import { CreateMessageDto } from './dto/create-message.dto';
 
 @WebSocketGateway()
 export class MessagesGateway
@@ -23,22 +26,28 @@ export class MessagesGateway
 
   @Inject()
   private messageService: MessageService;
+  @Inject()
   private userService: UserService;
 
   @SubscribeMessage('sendMessage')
-  handleMessage(client: Socket, payload: string): void {
+  handleMessage(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: string,
+  ): void {
     try {
-      const { from, to, text, datetime, image } = JSON.parse(payload);
-
-      console.log(from, to, text);
-
+      const body: CreateMessageDto = JSON.parse(data);
+      const { from, to, text, datetime, image } = body;
       this.messageService.createMessage({
         datetime,
         from,
         text,
         to,
+        image,
       });
-      this.server.to(to).emit('messageSent', payload);
+
+      const socketIdToSendMessage = this.userService.getUser(to.user_id)
+        .socket_id;
+      this.server.to(socketIdToSendMessage).emit('messageSent', body);
     } catch (error) {
       this.server.emit('messageNotSent', error.toString());
     }

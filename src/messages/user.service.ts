@@ -17,4 +17,12 @@ export class UserService {
     this.users = this.users.filter(user => user.socket_id !== socket_id);
     this.logger.debug(this.users);
   }
+
+  getUser(user_id: number): User {
+    return this.users.find(user => user.id === user_id);
+  }
+
+  listUsers(): User[] {
+    return this.users;
+  }
 }
