@@ -1,4 +1,11 @@
-import { BaseEntity, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+} from 'typeorm';
+import { Conversation } from 'src/conversation/conversation.entity';
 
 @Entity()
 export class Message extends BaseEntity {
@@ -24,8 +31,12 @@ export class Message extends BaseEntity {
   })
   avatar: string;
 
-  @Column()
-  conversation: number;
+  @ManyToOne(
+    type => Conversation,
+    conversation => conversation.messages,
+    { eager: false },
+  )
+  conversation: Conversation;
 
   @Column()
   datetime: Date;

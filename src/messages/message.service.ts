@@ -32,7 +32,7 @@ export class MessageService {
       message.avatar = from.avatar;
       message.datetime = new Date();
       message.name = from.name;
-      message.conversation = conversation.id;
+      message.conversation = conversation;
 
       await message.save();
     } else {
@@ -52,7 +52,7 @@ export class MessageService {
       message.avatar = from.avatar;
       message.datetime = datetime;
       message.name = from.name;
-      message.conversation = conversationCreated.id;
+      message.conversation = conversationCreated;
       await message.save();
 
       return message;

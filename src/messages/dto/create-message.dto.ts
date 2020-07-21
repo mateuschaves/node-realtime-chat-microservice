@@ -1,3 +1,5 @@
+import { Conversation } from 'src/conversation/conversation.entity';
+
 interface Person {
   socket_id?: string;
   user_id: number;
@@ -9,7 +11,7 @@ export class CreateMessageDto {
   from: Person;
   to: Person;
 
-  conversation?: number;
+  conversation?: Conversation;
   text: string;
   datetime: Date;
   image?: string;

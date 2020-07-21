@@ -1,4 +1,11 @@
-import { Entity, Column, BaseEntity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+} from 'typeorm';
+import { Message } from 'src/messages/message.entity';
 
 @Entity()
 export class Conversation extends BaseEntity {
@@ -10,4 +17,11 @@ export class Conversation extends BaseEntity {
 
   @Column()
   personB: number;
+
+  @OneToMany(
+    type => Message,
+    message => message.conversation,
+    { eager: true },
+  )
+  messages: Message[];
 }
