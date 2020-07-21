@@ -24,6 +24,7 @@ export class MessageService {
   async createMessage(createMessageDto: CreateMessageDto): Promise<Message> {
     const { from, to, datetime, image } = createMessageDto;
 
+    console.log(this.conversationRepository);
     const message = new Message();
 
     const conversation =

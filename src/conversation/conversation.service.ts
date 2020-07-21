@@ -25,6 +25,7 @@ export class ConversationService {
     personA: number,
     personB: number,
   ): Promise<Conversation | null> {
+    console.log(this.conversationRepository);
     const found = await this.conversationRepository.findOne({
       where: {
         personA,
