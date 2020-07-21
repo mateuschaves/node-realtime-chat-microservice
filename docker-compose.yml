@@ -8,6 +8,9 @@ services:
       - webnet
     environment:
       DB_HOST: database
+      AWS_S3_BUCKET_NAME: apta-images
+      AWS_ACCESS_KEY_ID: AKIA3OSDG5XW6EJDKWUG
+      AWS_SECRET_ACCESS_KEY: 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
     deploy:
       restart_policy:
         condition: on-failure
