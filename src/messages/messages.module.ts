@@ -7,6 +7,7 @@ import { ConversationService } from 'src/conversation/conversation.service';
 import { Conversation } from '../conversation/conversation.entity';
 import { MessagesGateway } from './messages.gateway';
 import { UserService } from './user.service';
+import { NotificationService } from 'src/notification/notification.service';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserService } from './user.service';
     ConversationService,
     MessagesGateway,
     UserService,
+    NotificationService,
   ],
 })
 export class MessagesModule {}

@@ -2,13 +2,11 @@ import { Module } from '@nestjs/common';
 import { ImageController } from './image.controller';
 
 import { MulterModule } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
 import { extname } from 'path';
 
 import * as AWS from 'aws-sdk';
 import * as multerS3 from 'multer-s3';
 
-console.log(process.env.AWS_S3_BUCKET_NAME);
 const AWS_S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
 const s3 = new AWS.S3();
 AWS.config.update({

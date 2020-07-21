@@ -17,6 +17,7 @@ import { UserService } from './user.service';
 
 import User from './user.entity';
 import { CreateMessageDto } from './dto/create-message.dto';
+import { NotificationService } from 'src/notification/notification.service';
 
 @WebSocketGateway()
 export class MessagesGateway
@@ -28,12 +29,14 @@ export class MessagesGateway
   private messageService: MessageService;
   @Inject()
   private userService: UserService;
+  @Inject()
+  private notificationService: NotificationService;
 
   @SubscribeMessage('sendMessage')
-  handleMessage(
+  async handleMessage(
     @ConnectedSocket() client: Socket,
     @MessageBody() data: string,
-  ): void {
+  ): Promise<void> {
     try {
       const body: CreateMessageDto = JSON.parse(data);
       const { from, to, text, datetime, image } = body;
@@ -46,8 +49,15 @@ export class MessagesGateway
       });
 
       const socketIdToSendMessage = this.userService.getUser(to.user_id)
-        .socket_id;
+        ?.socket_id;
       this.server.to(socketIdToSendMessage).emit('messageSent', body);
+      await this.notificationService.sendNotification({
+        content: text,
+        title: from.name,
+        group: from.user_id,
+        player_id: '8fc80ab5-130d-4ffa-965d-b64eac1024c2',
+        avatar: from.avatar,
+      });
     } catch (error) {
       this.server.emit('messageNotSent', error.toString());
     }
