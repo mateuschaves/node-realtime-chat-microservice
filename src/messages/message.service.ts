@@ -1,53 +1,40 @@
-import { Injectable } from '@nestjs/common';
-import { MessageRepository } from './message.repository';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable, Inject } from '@nestjs/common';
 import { CreateMessageDto } from './dto/create-message.dto';
 
 import { ConversationService } from '../conversation/conversation.service';
 import { Message } from './message.entity';
-import { Conversation } from 'src/conversation/conversation.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class MessageService {
-  private conversationRepository: Repository<Conversation>;
-
-  private conversationService: ConversationService = new ConversationService(
-    this.conversationRepository,
-  );
-
-  constructor(
-    @InjectRepository(MessageRepository)
-    private messageRepository: MessageRepository,
-  ) {}
+  @Inject()
+  private conversationService: ConversationService;
 
   async createMessage(createMessageDto: CreateMessageDto): Promise<Message> {
-    const { from, to, datetime, image } = createMessageDto;
-
-    console.log(this.conversationRepository);
-    const message = new Message();
+    const { from, to, datetime, image, text } = createMessageDto;
 
     const conversation =
-      this.conversationService.checkConversationExists(
+      (await this.conversationService.checkConversationExists(
         from.user_id,
         to.user_id,
-      ) ||
-      this.conversationService.checkConversationExists(
+      )) ||
+      (await this.conversationService.checkConversationExists(
         to.user_id,
         from.user_id,
-      );
+      ));
 
-    if (
-      this.conversationService.checkConversationExists(
-        from.user_id,
-        to.user_id,
-      ) ||
-      this.conversationService.checkConversationExists(to.user_id, from.user_id)
-    ) {
-      return await this.messageRepository.createMessage({
-        ...createMessageDto,
-        conversation: (await conversation)._id,
-      });
+    if (conversation) {
+      const message = new Message();
+
+      message.text = text;
+      message.image = image;
+      message.user_id = from.user_id;
+      message.image = image;
+      message.avatar = from.avatar;
+      message.datetime = new Date();
+      message.name = from.name;
+      message.conversation = conversation.id;
+
+      await message.save();
     } else {
       const conversationCreated = await this.conversationService.createConversation(
         {
@@ -56,10 +43,19 @@ export class MessageService {
         },
       );
 
-      return await this.messageRepository.createMessage({
-        ...createMessageDto,
-        conversation: conversationCreated._id,
-      });
+      const message = new Message();
+
+      message.text = text;
+      message.image = image;
+      message.user_id = from.user_id;
+      message.image = image;
+      message.avatar = from.avatar;
+      message.datetime = datetime;
+      message.name = from.name;
+      message.conversation = conversationCreated.id;
+      await message.save();
+
+      return message;
     }
   }
 }

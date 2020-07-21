@@ -6,14 +6,12 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
-import { Logger } from '@nestjs/common';
+import { Logger, Inject } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
 
 import { MessageService } from './message.service';
-import { MessageRepository } from './message.repository';
 
 import { UserService } from './user.service';
-import { UserRepository } from './users.repository';
 
 import User from './user.entity';
 
@@ -22,13 +20,17 @@ export class MessagesGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('MessageGateway');
-  private messageService = new MessageService(new MessageRepository());
-  private userService = new UserService(new UserRepository());
+
+  @Inject()
+  private messageService: MessageService;
+  private userService: UserService;
 
   @SubscribeMessage('sendMessage')
   handleMessage(client: Socket, payload: string): void {
     try {
       const { from, to, text, datetime, image } = JSON.parse(payload);
+
+      console.log(from, to, text);
 
       this.messageService.createMessage({
         datetime,

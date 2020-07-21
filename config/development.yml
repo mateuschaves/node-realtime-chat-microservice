@@ -1,0 +1,5 @@
+db:
+  host: 'database'
+  username: 'postgres'
+  password: '123456'
+  synchronize: true

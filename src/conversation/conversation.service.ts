@@ -1,23 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { Conversation } from './conversation.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class ConversationService {
-  constructor(
-    @InjectRepository(Conversation)
-    private conversationRepository: Repository<Conversation>,
-  ) {}
-
   async createConversation(
     createConversationDto: CreateConversationDto,
   ): Promise<Conversation | null> {
-    const conversation = this.conversationRepository.create(
-      createConversationDto,
-    );
-    await this.conversationRepository.save(conversation);
+    const { personA, personB } = createConversationDto;
+
+    const conversation = new Conversation();
+    conversation.personA = personA;
+    conversation.personB = personB;
+
+    await conversation.save();
     return conversation;
   }
 
@@ -25,8 +21,7 @@ export class ConversationService {
     personA: number,
     personB: number,
   ): Promise<Conversation | null> {
-    console.log(this.conversationRepository);
-    const found = await this.conversationRepository.findOne({
+    const found = await Conversation.findOne({
       where: {
         personA,
         personB,

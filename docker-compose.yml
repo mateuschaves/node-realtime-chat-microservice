@@ -4,6 +4,10 @@ services:
   messenger:
     build: .
     container_name: 'messenger'
+    networks:
+      - webnet
+    environment:
+      DB_HOST: database
     deploy:
       restart_policy:
         condition: on-failure
@@ -16,7 +20,14 @@ services:
     depends_on:
       - database
   database:
-    image: mongo:latest
+    image: postgres:latest
     ports:
-      - '27017:27017'
+      - '5432:5432'
     container_name: 'messenger_database'
+    networks:
+      - webnet
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: postgres
+networks:
+  webnet:

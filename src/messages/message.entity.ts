@@ -1,14 +1,16 @@
-import { BaseEntity, Entity, Column, ObjectIdColumn } from 'typeorm';
+import { BaseEntity, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Message extends BaseEntity {
-  @ObjectIdColumn()
-  _id: string;
+  @PrimaryGeneratedColumn()
+  id: string;
 
   @Column()
   text: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   image: string;
 
   @Column()
@@ -17,11 +19,13 @@ export class Message extends BaseEntity {
   @Column()
   user_id: number;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   avatar: string;
 
   @Column()
-  conversation: string;
+  conversation: number;
 
   @Column()
   datetime: Date;

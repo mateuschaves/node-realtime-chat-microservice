@@ -9,7 +9,7 @@ export class CreateMessageDto {
   from: Person;
   to: Person;
 
-  conversation?: string;
+  conversation?: number;
   text: string;
   datetime: Date;
   image?: string;

@@ -1,20 +1,20 @@
-import { Injectable } from '@nestjs/common';
-import { UserRepository } from './users.repository';
+import { Injectable, Logger } from '@nestjs/common';
 import User from './user.entity';
-import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(UserRepository)
-    private userRepository: UserRepository,
-  ) {}
-
-  removeUser(socket_id: string): void {
-    return this.userRepository.removeUser(socket_id);
-  }
+  private users: User[] = [];
+  private logger: Logger = new Logger('MessageGateway');
 
   newUser(user: User): void {
-    return this.userRepository.newUser(user);
+    const { socket_id } = user;
+    const userFound = this.users.find(user => user.socket_id === socket_id);
+    !userFound && this.users.push(user);
+    this.logger.debug(this.users);
+  }
+
+  removeUser(socket_id: string): void {
+    this.users = this.users.filter(user => user.socket_id !== socket_id);
+    this.logger.debug(this.users);
   }
 }
