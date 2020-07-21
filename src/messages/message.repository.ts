@@ -4,26 +4,22 @@ import { CreateMessageDto } from './dto/create-message.dto';
 
 @EntityRepository(Message)
 export class MessageRepository extends Repository<Message> {
-  async createMessage(createMessageDto: CreateMessageDto): Promise<void> {
-    const {
-      avatar,
-      datetime,
-      name,
-      user_id,
-      text,
-      image = undefined,
-    } = createMessageDto;
+  async createMessage(createMessageDto: CreateMessageDto): Promise<Message> {
+    const { text, from, datetime, image, conversation } = createMessageDto;
 
     const message = new Message();
 
     message.text = text;
     message.image = image;
-    message.user_id = user_id;
+    message.user_id = from.user_id;
     message.image = image;
-    message.avatar = avatar;
+    message.avatar = from.avatar;
     message.datetime = datetime;
-    message.name = name;
+    message.name = from.name;
+    message.conversation = conversation;
 
-    message.save();
+    await message.save();
+
+    return message;
   }
 }

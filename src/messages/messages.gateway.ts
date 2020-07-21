@@ -28,16 +28,12 @@ export class MessagesGateway
   @SubscribeMessage('sendMessage')
   handleMessage(client: Socket, payload: string): void {
     try {
-      const { avatar, datetime, name, text, user_id, image, to } = JSON.parse(
-        payload,
-      );
+      const { from, to, text, datetime, image } = JSON.parse(payload);
+
       this.messageService.createMessage({
-        avatar,
         datetime,
-        name,
+        from,
         text,
-        user_id,
-        image,
         to,
       });
       this.server.to(to).emit('messageSent', payload);

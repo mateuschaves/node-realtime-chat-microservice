@@ -1,24 +1,16 @@
-import { IsString, IsDate, IsNumber } from 'class-validator';
+interface Person {
+  socket_id?: string;
+  user_id: number;
+  name: string;
+  avatar?: string;
+}
 
 export class CreateMessageDto {
-  @IsString()
+  from: Person;
+  to: Person;
+
+  conversation?: string;
   text: string;
-
-  @IsDate()
   datetime: Date;
-
-  @IsString()
-  name: string;
-
-  @IsNumber()
-  user_id: number;
-
-  @IsString()
-  avatar: string;
-
-  @IsString()
-  to: string;
-
-  @IsString()
   image?: string;
 }

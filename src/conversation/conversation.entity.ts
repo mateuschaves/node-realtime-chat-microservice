@@ -1,13 +1,13 @@
-import { Entity, Column, ObjectIdColumn } from 'typeorm';
+import { Entity, Column, ObjectIdColumn, BaseEntity } from 'typeorm';
 
 @Entity()
-export default class Conversation {
+export class Conversation extends BaseEntity {
   @ObjectIdColumn()
   _id: string;
 
   @Column()
-  service_provider_id: string;
+  personA: number;
 
   @Column()
-  customer_id: string;
+  personB: number;
 }
