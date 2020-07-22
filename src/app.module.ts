@@ -6,6 +6,7 @@ import { MessagesModule } from './messages/messages.module';
 import { typeOrmConfig } from './config/typeorm.config';
 import { ImageModule } from './image/image.module';
 import { NotificationModule } from './notification/notification.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { NotificationModule } from './notification/notification.module';
     MessagesModule,
     ImageModule,
     NotificationModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

@@ -13,9 +13,8 @@ import { Socket, Server } from 'socket.io';
 
 import { MessageService } from './message.service';
 
-import { UserService } from './user.service';
+import { UserService } from '../user/user.service';
 
-import User from './user.entity';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { NotificationService } from 'src/notification/notification.service';
 
@@ -28,9 +27,9 @@ export class MessagesGateway
   @Inject()
   private messageService: MessageService;
   @Inject()
-  private userService: UserService;
-  @Inject()
   private notificationService: NotificationService;
+  @Inject()
+  private userService: UserService;
 
   @SubscribeMessage('sendMessage')
   async handleMessage(
@@ -48,8 +47,8 @@ export class MessagesGateway
         image,
       });
 
-      const socketIdToSendMessage = this.userService.getUser(to.user_id)
-        ?.socket_id;
+      const socketIdToSendMessage = (await this.userService.getUser(to.user_id))
+        .socket_id;
       this.server.to(socketIdToSendMessage).emit('messageSent', body);
       await this.notificationService.sendNotification({
         content: text,
@@ -64,13 +63,14 @@ export class MessagesGateway
   }
 
   @SubscribeMessage('subscribeOnChat')
-  handleSubscriber(client: Socket, payload: string): void {
-    const { id } = JSON.parse(payload);
-    const user: User = {
+  async handleSubscriber(client: Socket, payload: string): Promise<void> {
+    const { id, name, avatar } = JSON.parse(payload);
+    await this.userService.createUser({
+      name,
+      user_id: id,
       socket_id: client.id,
-      id,
-    };
-    this.userService.newUser(user);
+      avatar,
+    });
   }
 
   afterInit(server: Server) {
@@ -78,7 +78,6 @@ export class MessagesGateway
   }
 
   handleDisconnect(client: Socket) {
-    this.userService.removeUser(client.id);
     this.logger.log(`Client disconnected: ${client.id}`);
   }
 

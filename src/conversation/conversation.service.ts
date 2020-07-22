@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { Conversation } from './conversation.entity';
+import { getManager } from 'typeorm';
 
 @Injectable()
 export class ConversationService {
@@ -29,5 +30,20 @@ export class ConversationService {
     });
     if (found) return found;
     else return null;
+  }
+
+  async getConversations(user_id: number): Promise<Conversation> {
+    try {
+      return await getManager()
+        .createQueryBuilder(Conversation, 'conversation')
+        .where('conversation.personA = :id', { id: user_id })
+        .orWhere('conversation.personB = :id', { id: user_id })
+        .getOne();
+    } catch (error) {
+      throw new HttpException(
+        'Erro ao listar conversas',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

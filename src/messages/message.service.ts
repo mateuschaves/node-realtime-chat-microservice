@@ -27,7 +27,7 @@ export class MessageService {
 
       message.text = text;
       message.image = image;
-      message.user_id = from.user_id;
+      message.userId = from.user_id;
       message.image = image;
       message.avatar = from.avatar;
       message.datetime = new Date();
@@ -47,7 +47,7 @@ export class MessageService {
 
       message.text = text;
       message.image = image;
-      message.user_id = from.user_id;
+      message.userId = from.user_id;
       message.image = image;
       message.avatar = from.avatar;
       message.datetime = datetime;

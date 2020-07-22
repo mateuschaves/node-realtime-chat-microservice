@@ -6,6 +6,7 @@ import {
   Column,
 } from 'typeorm';
 import { Conversation } from 'src/conversation/conversation.entity';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Message extends BaseEntity {
@@ -23,9 +24,6 @@ export class Message extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
-  user_id: number;
-
   @Column({
     nullable: true,
   })
@@ -38,8 +36,18 @@ export class Message extends BaseEntity {
   )
   conversation: Conversation;
 
+  @ManyToOne(
+    type => User,
+    user => user.messages,
+    { eager: false },
+  )
+  user: User;
+
   @Column()
   conversationId: number;
+
+  @Column()
+  userId: number;
 
   @Column()
   datetime: Date;
