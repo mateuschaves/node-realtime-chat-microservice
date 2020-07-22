@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
 import { MessageService } from './message.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConversationModule } from '../conversation/conversation.module';
-import { ConversationService } from 'src/conversation/conversation.service';
+import { ConversationService } from '../conversation/conversation.service';
 import { Conversation } from '../conversation/conversation.entity';
 import { MessagesGateway } from './messages.gateway';
 import { UserService } from '../user/user.service';
-import { NotificationService } from 'src/notification/notification.service';
+import { NotificationService } from '../notification/notification.service';
 import { MessagesController } from './messages.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Conversation]), ConversationModule],
+  imports: [TypeOrmModule.forFeature([Conversation])],
   providers: [
     MessageService,
     ConversationService,
@@ -19,5 +18,6 @@ import { MessagesController } from './messages.controller';
     NotificationService,
   ],
   controllers: [MessagesController],
+  exports: [MessageService],
 })
 export class MessagesModule {}

@@ -34,6 +34,8 @@ export class MessageService {
       const conversationCreated = await this.conversationService.createConversation(
         {
           personA: from,
+          personAName: from.name,
+          personBName: to.name,
           personB: to,
         },
       );
@@ -58,6 +60,7 @@ export class MessageService {
         where: {
           conversationId: conversation_id,
         },
+        relations: ['user'],
       });
     } catch (error) {
       throw new HttpException(

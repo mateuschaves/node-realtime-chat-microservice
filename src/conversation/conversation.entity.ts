@@ -4,10 +4,8 @@ import {
   BaseEntity,
   PrimaryGeneratedColumn,
   OneToMany,
-  ManyToOne,
-  OneToOne,
 } from 'typeorm';
-import { Message } from 'src/messages/message.entity';
+import { Message } from '../messages/message.entity';
 
 @Entity()
 export class Conversation extends BaseEntity {
@@ -16,6 +14,12 @@ export class Conversation extends BaseEntity {
 
   @Column()
   personA: number;
+
+  @Column({ nullable: true })
+  personAName: string;
+
+  @Column({ nullable: true })
+  personBName: string;
 
   @Column()
   personB: number;
