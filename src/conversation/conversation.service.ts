@@ -2,13 +2,10 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { Conversation } from './conversation.entity';
 import { getManager } from 'typeorm';
-import { MessageService } from '../messages/message.service';
 import { Message } from '../messages/message.entity';
 
 @Injectable()
 export class ConversationService {
-  private messageService: MessageService;
-
   async createConversation(
     createConversationDto: CreateConversationDto,
   ): Promise<Conversation | null> {
