@@ -8,6 +8,7 @@ import { Conversation } from '../conversation/conversation.entity';
 import { MessagesGateway } from './messages.gateway';
 import { UserService } from './user.service';
 import { NotificationService } from 'src/notification/notification.service';
+import { MessagesController } from './messages.controller';
 
 @Module({
   imports: [
@@ -21,5 +22,6 @@ import { NotificationService } from 'src/notification/notification.service';
     UserService,
     NotificationService,
   ],
+  controllers: [MessagesController],
 })
 export class MessagesModule {}

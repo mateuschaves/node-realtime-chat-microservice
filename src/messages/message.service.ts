@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateMessageDto } from './dto/create-message.dto';
 
 import { ConversationService } from '../conversation/conversation.service';
@@ -56,6 +56,21 @@ export class MessageService {
       await message.save();
 
       return message;
+    }
+  }
+
+  async getMessagesFromConversations(conversation_id: number) {
+    try {
+      return Message.find({
+        where: {
+          conversationId: conversation_id,
+        },
+      });
+    } catch (error) {
+      throw new HttpException(
+        'Erro ao listar mensagens',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }

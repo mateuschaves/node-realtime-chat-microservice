@@ -1,9 +1,9 @@
 import {
   BaseEntity,
   Entity,
-  Column,
   PrimaryGeneratedColumn,
   ManyToOne,
+  Column,
 } from 'typeorm';
 import { Conversation } from 'src/conversation/conversation.entity';
 
@@ -37,6 +37,9 @@ export class Message extends BaseEntity {
     { eager: false },
   )
   conversation: Conversation;
+
+  @Column()
+  conversationId: number;
 
   @Column()
   datetime: Date;
