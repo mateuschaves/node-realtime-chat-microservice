@@ -11,8 +11,8 @@ export class ConversationService {
     const { personA, personB } = createConversationDto;
 
     const conversation = new Conversation();
-    conversation.personA = personA;
-    conversation.personB = personB;
+    conversation.personA = personA.id;
+    conversation.personB = personB.id;
 
     await conversation.save();
     return conversation;

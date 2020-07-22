@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MessageService } from './message.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MessageRepository } from './message.repository';
 import { ConversationModule } from '../conversation/conversation.module';
 import { ConversationService } from 'src/conversation/conversation.service';
 import { Conversation } from '../conversation/conversation.entity';
@@ -11,10 +10,7 @@ import { NotificationService } from 'src/notification/notification.service';
 import { MessagesController } from './messages.controller';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Conversation, MessageRepository]),
-    ConversationModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Conversation]), ConversationModule],
   providers: [
     MessageService,
     ConversationService,

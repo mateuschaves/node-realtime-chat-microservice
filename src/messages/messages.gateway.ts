@@ -38,25 +38,30 @@ export class MessagesGateway
   ): Promise<void> {
     try {
       const body: CreateMessageDto = JSON.parse(data);
-      const { from, to, text, datetime, image } = body;
-      this.messageService.createMessage({
-        datetime,
-        from,
-        text,
-        to,
-        image,
-      });
+      const { from, to, text, datetime = new Date(), image } = body;
 
-      const socketIdToSendMessage = (await this.userService.getUser(to.user_id))
-        .socket_id;
-      this.server.to(socketIdToSendMessage).emit('messageSent', body);
-      await this.notificationService.sendNotification({
-        content: text,
-        title: from.name,
-        group: from.user_id,
-        player_id: '8fc80ab5-130d-4ffa-965d-b64eac1024c2',
-        avatar: from.avatar,
-      });
+      const senderUser = await this.userService.getUser(from.id);
+      const recipientUser = await this.userService.getUser(to.id);
+
+      if (senderUser && recipientUser) {
+        this.messageService.createMessage({
+          datetime,
+          from: senderUser,
+          text,
+          to: recipientUser,
+          image,
+        });
+
+        this.server.to(recipientUser.socket_id).emit('messageSent', body);
+        await this.notificationService.sendNotification({
+          content: text,
+          title: senderUser.name,
+          group: senderUser.id,
+          player_id: recipientUser.player_id,
+          avatar: senderUser.avatar,
+        });
+      } else {
+      }
     } catch (error) {
       this.server.emit('messageNotSent', error.toString());
     }
@@ -64,12 +69,13 @@ export class MessagesGateway
 
   @SubscribeMessage('subscribeOnChat')
   async handleSubscriber(client: Socket, payload: string): Promise<void> {
-    const { id, name, avatar } = JSON.parse(payload);
+    const { id, name, avatar, player_id } = JSON.parse(payload);
     await this.userService.createUser({
       name,
       user_id: id,
       socket_id: client.id,
       avatar,
+      player_id,
     });
   }
 

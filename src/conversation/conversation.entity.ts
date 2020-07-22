@@ -4,6 +4,8 @@ import {
   BaseEntity,
   PrimaryGeneratedColumn,
   OneToMany,
+  ManyToOne,
+  OneToOne,
 } from 'typeorm';
 import { Message } from 'src/messages/message.entity';
 

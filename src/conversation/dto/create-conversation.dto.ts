@@ -1,9 +1,6 @@
-import { IsString } from 'class-validator';
-
+import { User } from '../../user/user.entity';
 export class CreateConversationDto {
-  @IsString()
-  personA: number;
+  personA: User;
 
-  @IsString()
-  personB: number;
+  personB: User;
 }

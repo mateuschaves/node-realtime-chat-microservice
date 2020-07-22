@@ -3,4 +3,5 @@ export class CreateUserDto {
   user_id: number;
   name: string;
   avatar?: string;
+  player_id?: string;
 }

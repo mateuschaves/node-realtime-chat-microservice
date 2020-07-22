@@ -1,15 +1,9 @@
 import { Conversation } from 'src/conversation/conversation.entity';
-
-interface Person {
-  socket_id?: string;
-  user_id: number;
-  name: string;
-  avatar?: string;
-}
+import { User } from '../../user/user.entity';
 
 export class CreateMessageDto {
-  from: Person;
-  to: Person;
+  from: User;
+  to: User;
 
   conversation?: Conversation;
   text: string;

@@ -21,14 +21,6 @@ export class Message extends BaseEntity {
   })
   image: string;
 
-  @Column()
-  name: string;
-
-  @Column({
-    nullable: true,
-  })
-  avatar: string;
-
   @ManyToOne(
     type => Conversation,
     conversation => conversation.messages,

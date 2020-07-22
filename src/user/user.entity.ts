@@ -22,6 +22,9 @@ export class User extends BaseEntity {
   @Column()
   avatar: string;
 
+  @Column({ nullable: true })
+  player_id: string;
+
   @OneToMany(
     type => Message,
     message => message.conversation,

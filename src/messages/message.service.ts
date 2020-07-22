@@ -14,32 +14,27 @@ export class MessageService {
 
     const conversation =
       (await this.conversationService.checkConversationExists(
-        from.user_id,
-        to.user_id,
+        from.id,
+        to.id,
       )) ||
-      (await this.conversationService.checkConversationExists(
-        to.user_id,
-        from.user_id,
-      ));
+      (await this.conversationService.checkConversationExists(to.id, from.id));
 
     if (conversation) {
       const message = new Message();
 
       message.text = text;
       message.image = image;
-      message.userId = from.user_id;
+      message.user = from;
       message.image = image;
-      message.avatar = from.avatar;
       message.datetime = new Date();
-      message.name = from.name;
       message.conversation = conversation;
 
       await message.save();
     } else {
       const conversationCreated = await this.conversationService.createConversation(
         {
-          personA: from.user_id,
-          personB: to.user_id,
+          personA: from,
+          personB: to,
         },
       );
 
@@ -47,11 +42,9 @@ export class MessageService {
 
       message.text = text;
       message.image = image;
-      message.userId = from.user_id;
+      message.user = from;
       message.image = image;
-      message.avatar = from.avatar;
       message.datetime = datetime;
-      message.name = from.name;
       message.conversation = conversationCreated;
       await message.save();
 
