@@ -3,6 +3,7 @@ version: '3.8'
 services:
   messenger:
     build: .
+    command: yarn start:dev
     container_name: 'messenger'
     networks:
       - webnet
@@ -18,9 +19,7 @@ services:
       restart_policy:
         condition: on-failure
     ports:
-      - '2000:3000'
-    volumes:
-      - .:/usr/app
+      - '3000:3000'
     links:
       - database
     depends_on:
@@ -35,5 +34,6 @@ services:
     environment:
       POSTGRES_PASSWORD: 123456
       POSTGRES_USER: postgres
+      POSTGRES_DATABASE: teste
 networks:
   webnet:

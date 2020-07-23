@@ -37,13 +37,18 @@ export class MessagesGateway
     @MessageBody() data: string,
   ): Promise<void> {
     try {
-      const body: CreateMessageDto = JSON.parse(data);
+      const body: CreateMessageDto = JSON.parse(JSON.stringify(data));
+      this.logger.debug(body);
       const { from, to, text, datetime = new Date(), image } = body;
 
       const senderUser = await this.userService.getUser(from.id);
       const recipientUser = await this.userService.getUser(to.id);
 
+      this.logger.debug(senderUser);
+      this.logger.debug(recipientUser);
+
       if (senderUser && recipientUser) {
+        this.logger.log('creating message');
         this.messageService.createMessage({
           datetime,
           from: senderUser,
@@ -60,16 +65,20 @@ export class MessagesGateway
           player_id: recipientUser.player_id,
           avatar: senderUser.avatar,
         });
-      } else {
       }
     } catch (error) {
+      this.logger.error(error);
       this.server.emit('messageNotSent', error.toString());
     }
   }
 
   @SubscribeMessage('subscribeOnChat')
-  async handleSubscriber(client: Socket, payload: string): Promise<void> {
-    const { id, name, avatar, player_id } = JSON.parse(payload);
+  async handleSubscriber(
+    client: Socket,
+    payload: { id: number; name: string; avatar: string; player_id: string },
+  ): Promise<void> {
+    this.logger.debug(payload);
+    const { id, name, avatar, player_id } = JSON.parse(JSON.stringify(payload));
     await this.userService.createUser({
       name,
       user_id: id,

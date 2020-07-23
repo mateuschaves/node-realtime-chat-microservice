@@ -1,11 +1,4 @@
-import {
-  Entity,
-  Column,
-  BaseEntity,
-  ManyToOne,
-  OneToMany,
-  PrimaryColumn,
-} from 'typeorm';
+import { Entity, Column, BaseEntity, OneToMany, PrimaryColumn } from 'typeorm';
 import { Message } from '../messages/message.entity';
 
 @Entity()
@@ -19,7 +12,9 @@ export class User extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   avatar: string;
 
   @Column({ nullable: true })
