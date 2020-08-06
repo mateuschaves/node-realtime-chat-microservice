@@ -99,8 +99,7 @@ export class MessageService {
     personAID: number,
     personBID: number,
     page: number = null,
-    limit: number = null,
-  ): Promise<Message[] | { page: number; limit: number; messages: Message[] }> {
+  ): Promise<Message[] | { page: number; messages: Message[] }> {
     const conversation =
       (await this.conversationService.checkConversationExists(
         personAID,
@@ -111,7 +110,7 @@ export class MessageService {
         personAID,
       ));
     if (conversation)
-      return this.getMessagesFromConversations(conversation.id, page, limit);
+      return this.getMessagesFromConversations(conversation.id, page);
     else return [];
   }
 }
