@@ -98,8 +98,8 @@ export class MessageService {
   async getMessagesWithoutConversation(
     personAID: number,
     personBID: number,
-    page: number,
-    limit: number,
+    page: number = null,
+    limit: number = null,
   ): Promise<Message[] | { page: number; limit: number; messages: Message[] }> {
     const conversation = await this.conversationService.checkConversationExists(
       personAID,
