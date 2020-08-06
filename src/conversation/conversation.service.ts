@@ -31,12 +31,14 @@ export class ConversationService {
     personA: number,
     personB: number,
   ): Promise<Conversation | null> {
-    const found = await Conversation.findOne({
-      where: {
-        personA,
-        personB,
-      },
-    });
+    const found = await getManager()
+      .createQueryBuilder(Conversation, 'conversation')
+      .where('conversation.personA = :personA', { personA })
+      .where('conversation.personB = :personB', { personB })
+      .orWhere('conversation.personB = :personB', { personB: personA })
+      .orWhere('conversation.personA = :personA', { personA: personB })
+      .getOne();
+
     if (found) return found;
     else return null;
   }
