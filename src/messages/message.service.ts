@@ -61,6 +61,7 @@ export class MessageService {
           conversationId: conversation_id,
         },
         relations: ['user'],
+        loadEagerRelations: false,
       });
     } catch (error) {
       throw new HttpException(
