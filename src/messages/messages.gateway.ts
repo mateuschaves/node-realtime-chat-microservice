@@ -57,15 +57,13 @@ export class MessagesGateway
           image,
         });
 
-        this.server
-          .to(recipientUser.socket_id)
-          .emit('messageSent', {
-            datetime,
-            from: senderUser,
-            text,
-            to: recipientUser,
-            image,
-          });
+        this.server.to(recipientUser.socket_id).emit('messageSent', {
+          datetime,
+          from: senderUser,
+          text,
+          to: recipientUser,
+          image,
+        });
         await this.notificationService.sendNotification({
           content: text,
           title: senderUser.name,

@@ -56,20 +56,37 @@ export class MessageService {
 
   async getMessagesFromConversations(
     conversation_id: number,
-  ): Promise<Message[]> {
+    page: number = null,
+    limit: number = null,
+  ): Promise<Message[] | { page: number; limit: number; messages: Message[] }> {
     try {
-      const messages = await Message.find({
-        where: {
-          conversationId: conversation_id,
-        },
-        relations: ['user'],
-        loadEagerRelations: false,
-      });
+      if (page) {
+        const messages = await Message.find({
+          where: {
+            conversationId: conversation_id,
+          },
+          relations: ['user'],
+        });
 
-      messages.forEach(message => {
-        delete message.user.messages;
-      });
-      return messages;
+        messages.forEach(message => {
+          delete message.user.messages;
+        });
+        return messages;
+      } else {
+        const messages = await Message.find({
+          where: {
+            conversationId: conversation_id,
+          },
+          relations: ['user'],
+          take: limit > 10 ? 10 : limit,
+          skip: (page - 1) * limit,
+        });
+
+        messages.forEach(message => {
+          delete message.user.messages;
+        });
+        return { page, limit, messages };
+      }
     } catch (error) {
       throw new HttpException(
         'Erro ao listar mensagens',
@@ -81,12 +98,15 @@ export class MessageService {
   async getMessagesWithoutConversation(
     personAID: number,
     personBID: number,
-  ): Promise<Message[]> {
+    page: number,
+    limit: number,
+  ): Promise<Message[] | { page: number; limit: number; messages: Message[] }> {
     const conversation = await this.conversationService.checkConversationExists(
       personAID,
       personBID,
     );
-    if (conversation) return this.getMessagesFromConversations(conversation.id);
+    if (conversation)
+      return this.getMessagesFromConversations(conversation.id, page, limit);
     else return [];
   }
 }
