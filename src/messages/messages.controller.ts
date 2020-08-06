@@ -10,12 +10,10 @@ export class MessagesController {
   getMessages(
     @Param('id', ParseIntPipe) conversation_id: number,
     @Query('page') page: number,
-    @Query('limit') limit: number,
   ) {
     return this.messageService.getMessagesFromConversations(
       conversation_id,
       page,
-      limit,
     );
   }
 
@@ -24,13 +22,11 @@ export class MessagesController {
     @Param('personAID', ParseIntPipe) personAID: number,
     @Param('personBID', ParseIntPipe) personBID: number,
     @Query('page') page: number,
-    @Query('limit') limit: number,
   ) {
     return this.messageService.getMessagesWithoutConversation(
       personAID,
       personBID,
       page,
-      limit,
     );
   }
 }

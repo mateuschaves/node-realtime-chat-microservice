@@ -57,11 +57,9 @@ export class MessageService {
   async getMessagesFromConversations(
     conversation_id: number,
     page: number = null,
-    limit: number = null,
   ): Promise<Message[] | { page: number; limit: number; messages: Message[] }> {
     try {
       page = Number(page);
-      limit = Number(limit);
       if (page) {
         const messages = await Message.find({
           where: {
@@ -80,8 +78,8 @@ export class MessageService {
             conversationId: conversation_id,
           },
           relations: ['user'],
-          take: limit > 10 ? 10 : limit,
-          skip: (page - 1) * limit,
+          take: 15,
+          skip: (page - 1) * 15,
         });
 
         messages.forEach(message => {
