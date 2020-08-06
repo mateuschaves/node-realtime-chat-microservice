@@ -68,6 +68,9 @@ export class MessageService {
           relations: ['user'],
           take: 15,
           skip: (page - 1) * 15,
+          order: {
+            datetime: 'DESC',
+          },
         });
 
         messages.forEach(message => {
