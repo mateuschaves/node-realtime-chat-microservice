@@ -54,15 +54,22 @@ export class MessageService {
     }
   }
 
-  async getMessagesFromConversations(conversation_id: number) {
+  async getMessagesFromConversations(
+    conversation_id: number,
+  ): Promise<Message[]> {
     try {
-      return Message.find({
+      const messages = await Message.find({
         where: {
           conversationId: conversation_id,
         },
         relations: ['user'],
         loadEagerRelations: false,
       });
+
+      messages.forEach(message => {
+        delete message.user.messages;
+      });
+      return messages;
     } catch (error) {
       throw new HttpException(
         'Erro ao listar mensagens',
