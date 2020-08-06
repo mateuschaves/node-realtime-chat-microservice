@@ -10,4 +10,15 @@ export class MessagesController {
   getMessages(@Param('id', ParseIntPipe) conversation_id: number) {
     return this.messageService.getMessagesFromConversations(conversation_id);
   }
+
+  @Get('/personA/:personAID/personB/:personBID')
+  getMessagesWithoutConversation(
+    @Param('personAID', ParseIntPipe) personAID: number,
+    @Param('personBID', ParseIntPipe) personBID: number,
+  ) {
+    return this.messageService.getMessagesWithoutConversation(
+      personAID,
+      personBID,
+    );
+  }
 }

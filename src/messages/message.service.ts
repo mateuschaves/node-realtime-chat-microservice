@@ -69,4 +69,16 @@ export class MessageService {
       );
     }
   }
+
+  async getMessagesWithoutConversation(
+    personAID: number,
+    personBID: number,
+  ): Promise<Message[]> {
+    const conversation = await this.conversationService.checkConversationExists(
+      personAID,
+      personBID,
+    );
+    if (conversation) return this.getMessagesFromConversations(conversation.id);
+    else return [];
+  }
 }
