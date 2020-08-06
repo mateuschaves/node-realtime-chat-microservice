@@ -101,10 +101,15 @@ export class MessageService {
     page: number = null,
     limit: number = null,
   ): Promise<Message[] | { page: number; limit: number; messages: Message[] }> {
-    const conversation = await this.conversationService.checkConversationExists(
-      personAID,
-      personBID,
-    );
+    const conversation =
+      (await this.conversationService.checkConversationExists(
+        personAID,
+        personBID,
+      )) ||
+      (await this.conversationService.checkConversationExists(
+        personBID,
+        personAID,
+      ));
     if (conversation)
       return this.getMessagesFromConversations(conversation.id, page, limit);
     else return [];

@@ -35,8 +35,6 @@ export class ConversationService {
       .createQueryBuilder(Conversation, 'conversation')
       .where('conversation.personA = :personA', { personA })
       .where('conversation.personB = :personB', { personB })
-      .orWhere('conversation.personB = :personB', { personB: personA })
-      .where('conversation.personA = :personA', { personA: personB })
       .getOne();
 
     if (found) return found;
