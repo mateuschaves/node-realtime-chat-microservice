@@ -71,7 +71,7 @@ export class MessageService {
         messages.forEach(message => {
           delete message.user.messages;
         });
-        return messages;
+        return { page, limit, messages };
       } else {
         const messages = await Message.find({
           where: {
@@ -85,7 +85,7 @@ export class MessageService {
         messages.forEach(message => {
           delete message.user.messages;
         });
-        return { page, limit, messages };
+        return messages;
       }
     } catch (error) {
       throw new HttpException(
