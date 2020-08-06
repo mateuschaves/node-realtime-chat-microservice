@@ -60,6 +60,8 @@ export class MessageService {
     limit: number = null,
   ): Promise<Message[] | { page: number; limit: number; messages: Message[] }> {
     try {
+      page = Number(page);
+      limit = Number(limit);
       if (page) {
         const messages = await Message.find({
           where: {
