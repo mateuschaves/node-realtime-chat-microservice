@@ -66,20 +66,20 @@ export class MessageService {
             conversationId: conversation_id,
           },
           relations: ['user'],
+          take: 15,
+          skip: (page - 1) * 15,
         });
 
         messages.forEach(message => {
           delete message.user.messages;
         });
-        return { page, limit, messages };
+        return { page, limit: 15, messages };
       } else {
         const messages = await Message.find({
           where: {
             conversationId: conversation_id,
           },
           relations: ['user'],
-          take: 15,
-          skip: (page - 1) * 15,
         });
 
         messages.forEach(message => {
