@@ -15,6 +15,7 @@ services:
       ONESIGNAL_TOKEN: ZmZiMTA2MjYtNmJkMC00MzZjLTlmNTQtODkzZTdkOTNiODgw
       ONESIGNAL_APP_ID: 49a6a3ff-11a1-488a-a223-675a91e23653
       ONESIGNAL_API_URL: https://onesignal.com/api/v1/
+
     deploy:
       restart_policy:
         condition: on-failure
