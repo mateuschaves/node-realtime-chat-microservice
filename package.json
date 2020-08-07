@@ -9,7 +9,6 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "npx nest build",
-    "postinstall": "npx typeorm migration:run",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "npx nest start",
     "start:dev": "npx nest start --watch",
