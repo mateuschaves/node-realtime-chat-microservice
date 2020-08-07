@@ -5,7 +5,7 @@ import * as config from 'config';
 const dbConfig: any = config.get('db');
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
-  type: dbConfig.type,
+  type: 'postgres',
   host: process.env.RDS_HOSTNAME,
   port: Number(process.env.RDS_PORT),
   username: process.env.RDS_USERNAME,
