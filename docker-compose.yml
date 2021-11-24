@@ -10,10 +10,10 @@ services:
     environment:
       DB_HOST: database
       AWS_S3_BUCKET_NAME: apta-images
-      AWS_ACCESS_KEY_ID: AKIA3OSDG5XW6EJDKWUG
-      AWS_SECRET_ACCESS_KEY: 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
-      ONESIGNAL_TOKEN: ZmZiMTA2MjYtNmJkMC00MzZjLTlmNTQtODkzZTdkOTNiODgw
-      ONESIGNAL_APP_ID: 49a6a3ff-11a1-488a-a223-675a91e23653
+      AWS_ACCESS_KEY_ID: 
+      AWS_SECRET_ACCESS_KEY: 
+      ONESIGNAL_TOKEN: 
+      ONESIGNAL_APP_ID: 
       ONESIGNAL_API_URL: https://onesignal.com/api/v1/
     deploy:
       restart_policy:
