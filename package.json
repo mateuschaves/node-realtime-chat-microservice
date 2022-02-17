@@ -32,7 +32,7 @@
     "@types/multer-s3": "^2.7.7",
     "@types/socket.io": "^2.1.8",
     "aws-sdk": "^2.717.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
     "config": "^3.3.1",
