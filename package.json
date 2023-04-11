@@ -31,7 +31,7 @@
     "@types/multer": "^1.4.3",
     "@types/multer-s3": "^2.7.7",
     "@types/socket.io": "^2.1.8",
-    "aws-sdk": "^2.717.0",
+    "aws-sdk": "^2.1354.0",
     "axios": "^0.21.2",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
@@ -44,7 +44,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
     "rxjs-compat": "^6.6.0",
-    "typeorm": "^0.2.25"
+    "typeorm": "^0.3.14"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.2.0",
